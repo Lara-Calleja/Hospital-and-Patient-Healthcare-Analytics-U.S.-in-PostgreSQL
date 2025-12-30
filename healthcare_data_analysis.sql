@@ -18,7 +18,7 @@ CREATE TABLE healthcare (
 
 -- Load csv file to table
 COPY healthcare
-FROM 'D:\DataAnalytics\SQL\Healthcare Project\archive(1)/healthcare_dataset.csv'
+FROM 'path/healthcare_dataset.csv'
 WITH (FORMAT CSV, HEADER true);
 
 ----------------------------------------------------------------------------------------
@@ -124,4 +124,18 @@ FROM healthcare
 GROUP BY insurance_provider
 ORDER BY avg_cost DESC;
 
+--Service Improvement Metrics (Length of Stay)
+SELECT 
+	discharge_date - date_of_admission AS length_of_stay,
+	COUNT(*) AS stay_count
+FROM healthcare
+GROUP BY length_of_stay
+ORDER BY stay_count DESC;
 
+--Admissions over time
+SELECT
+	TO_CHAR(DATE_TRUNC('month', date_of_admission), 'Mon YYYY') AS month,
+	COUNT(*) AS admissions
+FROM healthcare
+GROUP BY month
+ORDER BY month;
