@@ -21,7 +21,6 @@ COPY healthcare
 FROM 'D:\DataAnalytics\SQL\Healthcare Project\archive(1)/healthcare_dataset.csv'
 WITH (FORMAT CSV, HEADER true);
 
-SELECT * FROM healthcare;
 ----------------------------------------------------------------------------------------
 -- Data Quality Checks and Cleaning
 
@@ -82,5 +81,24 @@ SELECT
   AVG(billing_amount)
 FROM healthcare
 WHERE billing_amount < 0;
+----------------------------------------------------------------------------------------
+--KEY QUERIES FOR INSIGHTS
+
+-- Age and gender distribution
+SELECT gender, COUNT(*) AS count, ROUND(AVG(age) ,0) AS avg_age
+FROM healthcare
+GROUP BY gender;
+
+-- Age distribution buckets
+SELECT
+	CASE 
+		WHEN age < 18 THEN 'Child'
+		WHEN age BETWEEN 18 AND 64 THEN 'Adult'
+		ELSE 'Senior' 
+	END AS age_group,
+	COUNT(*) AS population
+FROM healthcare
+GROUP BY age_group;
+
 
 
