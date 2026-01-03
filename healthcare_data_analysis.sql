@@ -95,17 +95,20 @@ SELECT
 		ELSE 'Senior' 
 	END AS age_group,
 	COUNT(*) AS population
-FROM healthcare
+FROM healthcare	
+GROUP BY age_group;
 
--- Condition prevalence
+----------------------------------------------------------------------------------------
+--4.			KEY INSIGHTS
+----------------------------------------------------------------------------------------
+-- Most Medical Condition
 SELECT medical_condition, COUNT(*) AS total_cases
 FROM healthcare
 GROUP BY medical_condition
 ORDER BY total_cases DESC
 LIMIT 10; --helps identify dominant patterns quickly
-GROUP BY age_group;
 
---Average billing by condition
+--Hishest Average billing by condition
 SELECT medical_condition, 
 	ROUND(AVG(billing_amount), 2) AS avg_billing
 FROM healthcare
@@ -113,7 +116,7 @@ GROUP BY medical_condition
 ORDER BY avg_billing DESC
 LIMIT 10;
 
--- Compare billing by insurance
+-- Average billing by insurance provider
 SELECT 
 	insurance_provider,
 	ROUND(AVG(billing_amount),2) AS avg_cost,
