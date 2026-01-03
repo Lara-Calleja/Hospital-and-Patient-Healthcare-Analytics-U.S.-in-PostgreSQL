@@ -1,28 +1,18 @@
-CREATE TABLE healthcare (
-    name TEXT,
-    age INT,
-    gender TEXT,
-    blood_type TEXT,
-    medical_condition TEXT,
-    date_of_admission DATE,
-    doctor TEXT,
-    hospital TEXT,
-    insurance_provider TEXT,
-    billing_amount NUMERIC,
-    room_number INT,
-    admission_type TEXT,
-    discharge_date DATE,
-    medication TEXT,
-    test_results TEXT
-);
 
--- Load csv file to table
-COPY healthcare
-FROM 'path/healthcare_dataset.csv'
-WITH (FORMAT CSV, HEADER true);
-
+/*
+Sections:
+1. Data overview 
+2. Data quality checks and cleaning
+3. Exploratory analysis
+3. Key insights
+*/
 ----------------------------------------------------------------------------------------
--- Data Quality Checks and Cleaning
+--1.				DATA OVERVIEW AND ROW COUNTS
+----------------------------------------------------------------------------------------
+SELECT COUNT(*) FROM healthcare;
+----------------------------------------------------------------------------------------
+--2.		 Data Quality Checks and Cleaning
+----------------------------------------------------------------------------------------
 
 -- Identification of missing critical fields. 
 -- Records missing admission or discharge dates cannot be used for length-of-stay analysis.
@@ -82,7 +72,15 @@ SELECT
 FROM healthcare
 WHERE billing_amount < 0;
 ----------------------------------------------------------------------------------------
---KEY QUERIES FOR INSIGHTS
+--3.			EXPLORATORY ANALYSIS
+----------------------------------------------------------------------------------------
+--Admissions over time
+SELECT
+	TO_CHAR(DATE_TRUNC('month', date_of_admission), 'Mon YYYY') AS month,
+	COUNT(*) AS admissions
+FROM healthcare
+GROUP BY month
+ORDER BY month;
 
 -- Age and gender distribution
 SELECT gender, COUNT(*) AS count, ROUND(AVG(age) ,0) AS avg_age
@@ -132,10 +130,3 @@ FROM healthcare
 GROUP BY length_of_stay
 ORDER BY stay_count DESC;
 
---Admissions over time
-SELECT
-	TO_CHAR(DATE_TRUNC('month', date_of_admission), 'Mon YYYY') AS month,
-	COUNT(*) AS admissions
-FROM healthcare
-GROUP BY month
-ORDER BY month;
