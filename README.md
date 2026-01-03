@@ -28,6 +28,7 @@ Publicly available U.S. healthcare dataset sourced from Kaggle.
 - Billing amounts contain outliers and rounding inconsistencies
 
 ## Limitations
+- The dataset is synthetic and designed to simulate healthcare admissions rather than represent real patient records.
 - No unique patient identifier
 - Aggregate-level analysis only
-- Public dataset with potential reporting inconsistencies
+- Patterns observed may not fully reflect real-world healthcare system behavior.
